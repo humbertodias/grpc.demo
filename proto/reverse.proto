@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "example.com/project/protos/fizz";
+
+package reverse;
+
+service ReverseService {
+    rpc ReverseString (ReverseRequest) returns (ReverseReply) {}
+}
+
+message ReverseRequest {
+    string data = 1;
+}
+
+message ReverseReply {
+    string reversed = 2;
+}
