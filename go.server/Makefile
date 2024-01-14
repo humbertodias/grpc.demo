@@ -6,3 +6,4 @@ server:
 
 client:
 	grpcui --proto reverse.proto -plaintext localhost:50051
+
