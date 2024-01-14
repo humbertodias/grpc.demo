@@ -8,6 +8,18 @@ get-protoc:
 get-plugin:
 	GOBIN=`pwd`/tools/bin go install github.com/golang/protobuf/protoc-gen-go@latest
 
+# gen:
+# 	PATH=tools/bin:$$PATH protoc -Iproto proto/reverse.proto \
+# 	--go_opt=Mproto/reverse.proto=github.com/humbertodias/grpc.demo/proto/reverse \
+# 	--go_opt=paths=source_relative \
+# 	--go_out=plugins=grpc:proto
+
 gen:
-	PATH=tools/bin:$$PATH protoc -Iproto proto/reverse.proto --go_opt=paths=source_relative --go_out=plugins=grpc:proto
+	PATH=tools/bin:$$PATH protoc \
+	--go_opt=Mproto/reverse.proto=github.com/humbertodias/grpc.demo/proto/reverse \
+	proto/reverse.proto \
+	--go_out=plugins=grpc:proto
+
+gen-clean:
+	rm proto/*.pb.*
 
