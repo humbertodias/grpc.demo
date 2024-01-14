@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option go_package = "github.com/humbertodias/grpc.demo/proto";
-
 package reverse;
+
+option go_package = "v1/proto";
 
 service ReverseService {
     rpc ReverseString (ReverseRequest) returns (ReverseReply) {}

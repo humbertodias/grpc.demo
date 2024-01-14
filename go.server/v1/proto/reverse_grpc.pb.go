@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v4.25.2
-// source: proto/reverse.proto
+// source: reverse.proto
 
 package proto
 
@@ -105,5 +105,5 @@ var ReverseService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/reverse.proto",
+	Metadata: "reverse.proto",
 }

@@ -3,13 +3,19 @@ package main
 import (
 	"context"
 	"fmt"
-	proto "github.com/humbertodias/grpc.demo/proto"
+	"go.server/v1/proto"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
 )
 
-type reverseServer struct{}
+// Ensure that reverseServer implements the proto.ReverseServiceServer interface
+var _ proto.ReverseServiceServer = &reverseServer{}
+
+type reverseServer struct {
+	proto.UnimplementedReverseServiceServer
+}
 
 func (s *reverseServer) ReverseString(ctx context.Context, req *proto.ReverseRequest) (*proto.ReverseReply, error) {
 	reversed := reverseString(req.GetData())
@@ -30,8 +36,13 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	srv := grpc.NewServer()
+	// inicia servidor gRPC
+	var opts []grpc.ServerOption
+	srv := grpc.NewServer(opts...)
+
+	//srv := grpc.NewServer()
 	proto.RegisterReverseServiceServer(srv, &reverseServer{})
+	reflection.Register(srv)
 
 	fmt.Println("Server started on port 50051")
 	if err := srv.Serve(listen); err != nil {

@@ -14,13 +14,11 @@ profile:
 get-plugin:
 	go install github.com/golang/protobuf/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	dotnet tool install -g dotnet-grpc
 
-gen:
-	protoc \
-	--go_out=. --go_opt=paths=source_relative \
-	--go-grpc_out=. --go-grpc_opt=paths=source_relative \
-	proto/reverse.proto
+gen-server:
+	cd go.server && make gen
+	cd python.server && make gen
 
-gen-clean:
-	rm proto/*.pb.*
-
+gen-client:
+	cd csharp.client && make gen
