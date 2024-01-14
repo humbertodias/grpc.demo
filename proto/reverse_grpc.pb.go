@@ -4,7 +4,7 @@
 // - protoc             v4.25.2
 // source: proto/reverse.proto
 
-package pb
+package proto
 
 import (
 	context "context"

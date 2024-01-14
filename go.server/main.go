@@ -1,38 +1,40 @@
 package main
 
 import (
+	"context"
+	"fmt"
+	proto "github.com/humbertodias/grpc.demo/proto"
+	"google.golang.org/grpc"
 	"log"
 	"net"
-
-	// pb "github.com/humbertodias/grpc.demo/proto/reverse"
-	pb "../pb/reverse"
-
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-
-	"google.golang.org/grpc/reflection"
 )
 
-const (
-	port = ":50051"
-)
+type reverseServer struct{}
 
-type server struct{}
+func (s *reverseServer) ReverseString(ctx context.Context, req *proto.ReverseRequest) (*proto.ReverseReply, error) {
+	reversed := reverseString(req.GetData())
+	return &proto.ReverseReply{Reversed: reversed}, nil
+}
 
-func (s *server) ReverseString(ctx context.Context, in *pb.ReverseRequest) (*pb.ReverseReply, error) {
-	// your reverse string implementation here
-	return &pb.ReverseReply{Reversed: reversed}, nil
+func reverseString(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
 }
 
 func main() {
-	lis, err := net.Listen("tcp", port)
+	listen, err := net.Listen("tcp", ":50051")
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("Failed to listen: %v", err)
 	}
-	s := grpc.NewServer()
-	pb.RegisterReverseServiceServer(s, &server{})
-	reflection.Register(s)
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to server: %v", err)
+
+	srv := grpc.NewServer()
+	proto.RegisterReverseServiceServer(srv, &reverseServer{})
+
+	fmt.Println("Server started on port 50051")
+	if err := srv.Serve(listen); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
 	}
 }

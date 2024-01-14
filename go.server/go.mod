@@ -4,6 +4,7 @@ go 1.21.6
 
 require (
 	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/humbertodias/grpc.demo v0.0.0-20240114141611-1621a5683c49 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
