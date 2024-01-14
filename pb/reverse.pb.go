@@ -4,15 +4,9 @@
 // 	protoc        v4.25.2
 // source: proto/reverse.proto
 
-// option go_package = "github.com/humbertodias/grpc.demo/proto";
-
-package reverse
+package pb
 
 import (
-	context "context"
-	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -135,7 +129,8 @@ var file_proto_reverse_proto_rawDesc = []byte{
 	0x69, 0x6e, 0x67, 0x12, 0x17, 0x2e, 0x72, 0x65, 0x76, 0x65, 0x72, 0x73, 0x65, 0x2e, 0x52, 0x65,
 	0x76, 0x65, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x72,
 	0x65, 0x76, 0x65, 0x72, 0x73, 0x65, 0x2e, 0x52, 0x65, 0x76, 0x65, 0x72, 0x73, 0x65, 0x52, 0x65,
-	0x70, 0x6c, 0x79, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x6c, 0x79, 0x22, 0x00, 0x42, 0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -214,84 +209,4 @@ func file_proto_reverse_proto_init() {
 	file_proto_reverse_proto_rawDesc = nil
 	file_proto_reverse_proto_goTypes = nil
 	file_proto_reverse_proto_depIdxs = nil
-}
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConnInterface
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
-
-// ReverseServiceClient is the client API for ReverseService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type ReverseServiceClient interface {
-	ReverseString(ctx context.Context, in *ReverseRequest, opts ...grpc.CallOption) (*ReverseReply, error)
-}
-
-type reverseServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewReverseServiceClient(cc grpc.ClientConnInterface) ReverseServiceClient {
-	return &reverseServiceClient{cc}
-}
-
-func (c *reverseServiceClient) ReverseString(ctx context.Context, in *ReverseRequest, opts ...grpc.CallOption) (*ReverseReply, error) {
-	out := new(ReverseReply)
-	err := c.cc.Invoke(ctx, "/reverse.ReverseService/ReverseString", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// ReverseServiceServer is the server API for ReverseService service.
-type ReverseServiceServer interface {
-	ReverseString(context.Context, *ReverseRequest) (*ReverseReply, error)
-}
-
-// UnimplementedReverseServiceServer can be embedded to have forward compatible implementations.
-type UnimplementedReverseServiceServer struct {
-}
-
-func (*UnimplementedReverseServiceServer) ReverseString(context.Context, *ReverseRequest) (*ReverseReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReverseString not implemented")
-}
-
-func RegisterReverseServiceServer(s *grpc.Server, srv ReverseServiceServer) {
-	s.RegisterService(&_ReverseService_serviceDesc, srv)
-}
-
-func _ReverseService_ReverseString_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReverseRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ReverseServiceServer).ReverseString(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/reverse.ReverseService/ReverseString",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ReverseServiceServer).ReverseString(ctx, req.(*ReverseRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _ReverseService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "reverse.ReverseService",
-	HandlerType: (*ReverseServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "ReverseString",
-			Handler:    _ReverseService_ReverseString_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/reverse.proto",
 }

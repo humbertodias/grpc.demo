@@ -14,11 +14,14 @@ get-plugin:
 # 	--go_opt=paths=source_relative \
 # 	--go_out=plugins=grpc:proto
 
+# gen:
+# 	PATH=tools/bin:$$PATH protoc \
+# 	--go_opt=Mproto/reverse.proto=github.com/humbertodias/grpc.demo/proto/reverse \
+# 	proto/reverse.proto \
+# 	--go_out=plugins=grpc:proto
+
 gen:
-	PATH=tools/bin:$$PATH protoc \
-	--go_opt=Mproto/reverse.proto=github.com/humbertodias/grpc.demo/proto/reverse \
-	proto/reverse.proto \
-	--go_out=plugins=grpc:proto
+	PATH=tools/bin:$$PATH protoc --go_out=. proto/reverse.proto
 
 gen-clean:
 	rm proto/*.pb.*

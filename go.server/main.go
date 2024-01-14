@@ -4,7 +4,8 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/humbertodias/grpc.demo/proto/reverse"
+	// pb "github.com/humbertodias/grpc.demo/proto/reverse"
+	pb "../pb/reverse"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
