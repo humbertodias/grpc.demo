@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "example.com/project/protos/fizz";
+option go_package = "github.com/humbertodias/grpc.demo/proto";
 
 package reverse;
 
