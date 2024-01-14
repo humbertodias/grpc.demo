@@ -4,12 +4,18 @@ UNAME := $(shell uname)
 
 
 PROTOC_VERSION=25.2
+#PROTOC_ARCH=aarch_64
+PROTOC_ARCH=x86_64
+
 GO_VERSION=1.21.6
-PROTOC_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-osx-aarch_64.zip
-GO_URL=https://go.dev/dl/go${GO_VERSION}.darwin-arm64.tar.gz
+#GO_ARCH=arm64
+GO_ARCH=amd64
+
+PROTOC_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-osx-${PROTOC_ARCH}.zip
+GO_URL=https://go.dev/dl/go${GO_VERSION}.darwin-${GO_ARCH}.tar.gz
 ifeq ($(UNAME), Linux)
-PROTOC_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-aarch_64.zip
-GO_URL=https://go.dev/dl/go${GO_VERSION}.linux-arm64.tar.gz
+PROTOC_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-${PROTOC_ARCH}.zip
+GO_URL=https://go.dev/dl/go${GO_VERSION}.linux-${GO_ARCH}.tar.gz
 endif
 
 get-go:
@@ -23,14 +29,14 @@ get-protoc:
 	rm -f protoc.zip
 
 profile:
-	echo 'export PATH=~/go/bin:$PATH:/usr/local/go/bin' >> ~/.bashrc
+	echo 'export PATH=~/go/bin:\$PATH:/usr/local/go/bin' >> ~/.bashrc
 	source ~/.bashrc
 
 get-plugin:
 	go install github.com/golang/protobuf/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	dotnet tool install -g dotnet-grpc
-	python -m pip install grpcio-tools
+	python3 -m pip install grpcio-tools
 
 gen-server:
 	cd go.server && make gen
