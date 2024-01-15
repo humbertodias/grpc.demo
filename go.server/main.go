@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"net"
+
 	"go.server/v1/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"log"
-	"net"
 )
 
 // Ensure that reverseServer implements the proto.ReverseServiceServer interface
